@@ -15,7 +15,7 @@ exports.signup = (req,res,next) => {
 
   if (!email || !password){
     return res.status(422).send({error: 'Missing Email and Password'})
-  }
+  } 
 
   User.findOne({email: email}, (err , existingUser) => {
     if(err) {
