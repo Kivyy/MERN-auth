@@ -5,7 +5,12 @@ const config = require('../config');
 function tokenForUser(user) {
   const timestamp = new Date().getTime();
   return jwt.encode({ sub: user.id , iat: timestamp } , config.secret);
-}
+};
+
+exports.signin = (req,res,next) => {
+  console.log(req.user);
+  res.send({token: tokenForUser(req.user)});
+};
 
 exports.signup = (req,res,next) => {
   const email = req.body.email;
@@ -15,7 +20,7 @@ exports.signup = (req,res,next) => {
 
   if (!email || !password){
     return res.status(422).send({error: 'Missing Email and Password'})
-  } 
+  }
 
   User.findOne({email: email}, (err , existingUser) => {
     if(err) {

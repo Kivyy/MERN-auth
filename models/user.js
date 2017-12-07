@@ -5,7 +5,7 @@ const bcrypt = require('bcrypt-nodejs')
 
 const userSchema = new Schema({
   email: { type: String, unique: true, lowercase: true},
-  password: String
+  password: { type: String}
 });
 
 // encrypt password before saving
@@ -19,11 +19,20 @@ userSchema.pre('save', function(next){
       if(err) {return next(err)}
 
       user.password = hash;
-      console.log("this is hit last:", user.password);
       next();
     });
   });
 })
+
+userSchema.methods.comparePassword = function(candidatePassword, callback) {
+  var candidatePassword = candidatePassword.toString();
+  bcrypt.compare(candidatePassword, this.password, function(err,isMatch) {
+    if(err) {
+      return callback(err);
+    }
+    callback(null,isMatch);
+  });
+}
 
 const ModelClass = mongoose.model('user' , userSchema);
 
