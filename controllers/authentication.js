@@ -8,15 +8,12 @@ function tokenForUser(user) {
 };
 
 exports.signin = (req,res,next) => {
-  console.log(req.user);
   res.send({token: tokenForUser(req.user)});
 };
 
 exports.signup = (req,res,next) => {
   const email = req.body.email;
   const password = req.body.password;
-
-  console.log("this is being store", password);
 
   if (!email || !password){
     return res.status(422).send({error: 'Missing Email and Password'})
