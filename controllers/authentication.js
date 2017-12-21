@@ -13,7 +13,6 @@ exports.signin = (req,res,next) => {
 };
 
 exports.signup = (req,res,next) => {
-  console.log(req.body);
   const email = req.body.email;
   const password = req.body.password;
 
@@ -26,6 +25,7 @@ exports.signup = (req,res,next) => {
       return next(err);
     }
     if(existingUser){
+      console.log("this hit")
       return res.status(422).send({error: 'Email has already registered.'});
     }
   });
