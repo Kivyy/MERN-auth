@@ -19,7 +19,7 @@ exports.signup = (req,res,next) => {
   if (!email || !password){
     return res.status(422).send({error: 'Missing Email and Password'})
   }
-
+  // Mongoose help method to search database by field and return a cb
   User.findOne({email: email}, (err , existingUser) => {
     if(err) {
       return next(err);
@@ -29,6 +29,7 @@ exports.signup = (req,res,next) => {
       return res.status(422).send({error: 'Email has already registered.'});
     }
   });
+  // if the user was not found in existing db , we will create a new one for the user
     const user = new User({
       email: email,
       password: password
